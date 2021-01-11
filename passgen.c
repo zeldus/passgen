@@ -1,52 +1,64 @@
+/* passgen */
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
+#include <getopt.h>
 
-int length = 12;
-
+/* Generates a password of given length */
 void generate(int len)
 {
     int i;
 
     for (i = 0; i < len; i++)
     {
+        /* Prints each character of password to console */
         printf("%c", 33 + rand() % 94); /* ASCII 33 - 126 */
     }
-
     printf("\n");
+}
+
+void fail(char *name)
+{
+    fprintf(stderr, "Usage: %s [-l length] [-a amount]\n", name);
+    exit(EXIT_FAILURE);
 }
 
 int main(int argc, char **argv)
 {
+    /* Internal variables, including password length and amount to generate */
+    int i, opt, length = 12, amount = 1;
+
+    /* Sets seed of the random based on program's process ID */
     srand(getpid());
 
-    if (argc == 3)
+    /* Loops through command line arguments */
+    while ((opt = getopt(argc, argv, "l:a:")) != -1)
     {
-        /* Password Length & Amount to Generate Provided */
-        int i;
-        int amt = atoi(argv[2]);
+        int val = atoi(optarg);
 
-        for (i = 0; i < amt; i++)
+        if (val < 1)
         {
-            /* Password Length Provided */
-            generate(atoi(argv[1]));
+            fail(argv[0]);
+        }
+
+        switch (opt)
+        {
+        case 'l':
+            length = val;
+            break;
+        case 'a':
+            amount = val;
+            break;
+        default:
+            fail(argv[0]);
+            break;
         }
     }
-    else if (argc == 2)
+
+    for (i = 0; i < amount; i++)
     {
-        /* Password Length Provided */
-        generate(atoi(argv[1]));
-    }
-    else if (argc == 1)
-    {
-        /* Default; generates a single 12 character password */
         generate(length);
     }
-    else
-    {
-        /* Incorrect Argument Count */
-        printf("Usage: passgen {Optional: LENGTH} {Optional: AMOUNT}\n");
-    }
+
     return 0;
 }
