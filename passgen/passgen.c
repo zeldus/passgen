@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h> /* Leaving out throws warnings on some systems */
 #include <getopt.h>
 
 /* Generates a password of given length */
