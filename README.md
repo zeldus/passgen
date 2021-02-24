@@ -1,13 +1,3 @@
-# Sandbox
-
-A place to store my small projects and pieces of code.
-
-# Contents
-
-- [passgen](#passgen)
-  - [Usage](#usage)
-  - [Example](#example)
-
 # passgen
 
 A simple, possibly naive password generator. You can choose how long the passwords should be, along with how many of them should be generated.
@@ -18,7 +8,7 @@ A simple, possibly naive password generator. You can choose how long the passwor
 $ passgen [-l length] [-a amount]
 ```
 
-## Example
+## Examples
 
 ```
 $ passgen
